@@ -15,6 +15,8 @@ namespace BooruDatasetTagManager
         private bool afterFocus = false;
         public AutoCompleteTextBox tagTextBox;
         private bool closedByEscape = false;
+        public bool UseParsedTags { get; private set; }
+        public IReadOnlyList<string> ParsedTags { get; private set; }
         public Form_addTag()
         {
             InitializeComponent();
@@ -33,6 +35,8 @@ namespace BooruDatasetTagManager
             Program.ColorManager.ChangeColorScheme(this, Program.ColorManager.SelectedScheme);
             Program.ColorManager.ChangeColorSchemeInConteiner(Controls, Program.ColorManager.SelectedScheme);
             SwitchLanguage();
+            UseParsedTags = false;
+            ParsedTags = Array.Empty<string>();
         }
 
         private void TagTextBox_ListBoxClosedByEscape()
@@ -55,7 +59,10 @@ namespace BooruDatasetTagManager
                 afterFocus = false;
             }
             else
+            {
+                UseParsedTags = false;
                 DialogResult = DialogResult.OK;
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -96,11 +103,39 @@ namespace BooruDatasetTagManager
             label2.Text = I18n.GetText("UIAddTagAddingPosition");
             label1.Text = I18n.GetText("UIAddTagTag");
             checkBoxSkipExist.Text = I18n.GetText("CheckBoxSkipExist");
+            buttonParseTags.Text = I18n.GetText("UIAddTagParseTags");
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             tagTextBox.Text = tagTextBox.Text.ToLower();
+        }
+
+        private void buttonParseTags_Click(object sender, EventArgs e)
+        {
+            var tags = ParseTagsFromInput();
+            if (tags.Count == 0)
+                return;
+            ParsedTags = tags;
+            UseParsedTags = true;
+            DialogResult = DialogResult.OK;
+        }
+
+        private List<string> ParseTagsFromInput()
+        {
+            var rawText = tagTextBox.Text ?? string.Empty;
+            var parts = rawText.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
+            var uniqueTags = new HashSet<string>(StringComparer.Ordinal);
+            var parsedTags = new List<string>();
+            foreach (var part in parts)
+            {
+                var cleaned = part.Replace("_", "").Trim();
+                if (string.IsNullOrWhiteSpace(cleaned))
+                    continue;
+                if (uniqueTags.Add(cleaned))
+                    parsedTags.Add(cleaned);
+            }
+            return parsedTags;
         }
 
         protected override bool ProcessDialogKey(Keys keyData)
