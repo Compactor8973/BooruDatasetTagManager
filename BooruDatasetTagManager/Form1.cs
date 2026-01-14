@@ -477,7 +477,14 @@ namespace BooruDatasetTagManager
                         AddingType addType = Extensions.GetEnumItemFromFriendlyText<DatasetManager.AddingType>((string)addTag.comboBox1.SelectedItem);
                         int customIndex = (int)addTag.numericUpDown1.Value;
                         bool skipExist = addTag.checkBoxSkipExist.Checked;
-                        AddTagMultiselectedMode(addTag.tagTextBox.Text, skipExist, addType, customIndex);
+                        if (addTag.UseParsedTags)
+                        {
+                            AddParsedTagsToMultiSelection(addTag.ParsedTags, addType, customIndex);
+                        }
+                        else
+                        {
+                            AddTagMultiselectedMode(addTag.tagTextBox.Text, skipExist, addType, customIndex);
+                        }
                     }
                     addTag.Close();
                 }
@@ -577,7 +584,14 @@ namespace BooruDatasetTagManager
                 int customIndex = (int)addTag.numericUpDown1.Value;
                 bool skipExist = addTag.checkBoxSkipExist.Checked;
                 DatasetManager.AddingType addType = Extensions.GetEnumItemFromFriendlyText<DatasetManager.AddingType>((string)addTag.comboBox1.SelectedItem);
-                Program.DataManager.AddTagToAll(addTag.tagTextBox.Text, skipExist, addType, customIndex, filtered);
+                if (addTag.UseParsedTags)
+                {
+                    AddParsedTagsToAll(addTag.ParsedTags, addType, customIndex, filtered);
+                }
+                else
+                {
+                    Program.DataManager.AddTagToAll(addTag.tagTextBox.Text, skipExist, addType, customIndex, filtered);
+                }
                 if (gridViewDS.SelectedRows.Count == 1)
                 {
                     if (isTranslate)
@@ -587,10 +601,33 @@ namespace BooruDatasetTagManager
                 }
                 else
                 {
-                    AddTagMultiselectedMode(addTag.tagTextBox.Text, skipExist, addType, customIndex);
+                    if (addTag.UseParsedTags)
+                    {
+                        AddParsedTagsToMultiSelection(addTag.ParsedTags, addType, customIndex);
+                    }
+                    else
+                    {
+                        AddTagMultiselectedMode(addTag.tagTextBox.Text, skipExist, addType, customIndex);
+                    }
                 }
             }
             addTag.Close();
+        }
+
+        private void AddParsedTagsToMultiSelection(IEnumerable<string> tags, DatasetManager.AddingType addType, int customIndex)
+        {
+            foreach (var tag in tags)
+            {
+                AddTagMultiselectedMode(tag, true, addType, customIndex);
+            }
+        }
+
+        private void AddParsedTagsToAll(IEnumerable<string> tags, DatasetManager.AddingType addType, int customIndex, bool filtered)
+        {
+            foreach (var tag in tags)
+            {
+                Program.DataManager.AddTagToAll(tag, true, addType, customIndex, filtered);
+            }
         }
 
         private void toolStripButton8_Click(object sender, EventArgs e)

@@ -164,6 +164,7 @@ HKtoolStripPromptSortBtn=Classificar por Nome
 UIAddTagForm=Adicionar tag
 UIAddTagAddingPosition=Adicionar posição
 UIAddTagTag=Tag
+UIAddTagParseTags=Adicionar tags do texto
 UIReplaceForm=Substituir tudo
 UIReplaceSourceTag=Tag de origem
 UIReplaceNewTag=Nova tag

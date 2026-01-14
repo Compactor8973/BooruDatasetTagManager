@@ -37,6 +37,7 @@ namespace BooruDatasetTagManager
             numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             checkBoxSkipExist = new System.Windows.Forms.CheckBox();
             button3 = new System.Windows.Forms.Button();
+            buttonParseTags = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
@@ -127,11 +128,22 @@ namespace BooruDatasetTagManager
             button3.UseVisualStyleBackColor = true;
             button3.Click += button3_Click;
             // 
+            // buttonParseTags
+            // 
+            buttonParseTags.Location = new System.Drawing.Point(300, 107);
+            buttonParseTags.Name = "buttonParseTags";
+            buttonParseTags.Size = new System.Drawing.Size(88, 23);
+            buttonParseTags.TabIndex = 9;
+            buttonParseTags.Text = "Add tags";
+            buttonParseTags.UseVisualStyleBackColor = true;
+            buttonParseTags.Click += buttonParseTags_Click;
+            // 
             // Form_addTag
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             ClientSize = new System.Drawing.Size(401, 353);
+            Controls.Add(buttonParseTags);
             Controls.Add(button3);
             Controls.Add(checkBoxSkipExist);
             Controls.Add(numericUpDown1);
@@ -162,5 +174,6 @@ namespace BooruDatasetTagManager
         public System.Windows.Forms.NumericUpDown numericUpDown1;
         public System.Windows.Forms.CheckBox checkBoxSkipExist;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttonParseTags;
     }
 }

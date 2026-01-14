@@ -155,6 +155,7 @@ HKtoolStripPromptSortBtn=排序標籤
 UIAddTagForm=新增標籤
 UIAddTagAddingPosition=新增位置
 UIAddTagTag=標籤
+UIAddTagParseTags=從文字新增標籤
 UIReplaceForm=全部替換
 UIReplaceSourceTag=來源標籤
 UIReplaceNewTag=新標籤
